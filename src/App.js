@@ -34,7 +34,7 @@ const App = () => {
     setSolvedSudoku(null);
     setSudokuError(null); // Reset error state
 
-    fetch("http://127.0.0.1:8000/", {
+    fetch("https://sudoku-solver-backend.onrender.com", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
