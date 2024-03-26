@@ -20,10 +20,6 @@ const App = () => {
     [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
 
-  console.log(initialGrid);
-  // const initialGrid =
-  // Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => 0));
-
   const handleCapture = (imageDataURL) => {
     setCapturedImage(imageDataURL);
   };
