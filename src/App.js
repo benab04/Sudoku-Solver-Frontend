@@ -1,10 +1,27 @@
 import React, { useState } from "react";
 import Camera from "./Camera";
+import SudokuGrid from "./SudokuGrid";
+import { FaUpload } from "react-icons/fa6";
+const base_url = process.env.REACT_APP_BACKEND_URL;
 
 const App = () => {
   const [capturedImage, setCapturedImage] = useState(null);
   const [solvedSudoku, setSolvedSudoku] = useState(null);
   const [sudokuError, setSudokuError] = useState(null);
+  const [initialGrid, setInitialGrid] = useState([
+    [5, 3, 0, 0, 7, 0, 0, 0, 0],
+    [6, 0, 0, 1, 9, 5, 0, 0, 0],
+    [0, 9, 8, 0, 0, 0, 0, 6, 0],
+    [8, 0, 0, 0, 6, 0, 0, 0, 3],
+    [4, 0, 0, 8, 0, 3, 0, 0, 1],
+    [7, 0, 0, 0, 2, 0, 0, 0, 6],
+    [0, 6, 0, 0, 0, 0, 2, 8, 0],
+    [0, 0, 0, 4, 1, 9, 0, 0, 5],
+    [0, 0, 0, 0, 8, 0, 0, 7, 9],
+  ]);
+  console.log(initialGrid);
+  // const initialGrid =
+  // Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => 0));
 
   const handleCapture = (imageDataURL) => {
     setCapturedImage(imageDataURL);
@@ -34,7 +51,7 @@ const App = () => {
     setSolvedSudoku(null);
     setSudokuError(null); // Reset error state
 
-    fetch("https://sudoku-solver-backend.onrender.com", {
+    fetch(`${base_url}extract/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,8 +65,10 @@ const App = () => {
         return response.json();
       })
       .then((data) => {
+        console.log(JSON.parse(data.Unsolved));
         setSolvedSudoku(data.solved);
-        setCapturedImage(null);
+        // setCapturedImage(null);
+        setInitialGrid(JSON.parse(data.Unsolved)); // Set initial grid to Unsolved
         setSudokuError(null); // Reset error state
       })
       .catch((error) => {
@@ -67,7 +86,7 @@ const App = () => {
           <div className="col-md-6 mb-3">
             <Camera onCapture={handleCapture} className="my-3" />
             <label htmlFor="fileInput" className="btn btn-primary my-3">
-              Choose File
+              <FaUpload />
             </label>
             <input
               type="file"
@@ -76,6 +95,9 @@ const App = () => {
               onChange={handleFileInput}
               className="visually-hidden"
             />
+            <button onClick={handleSubmission} className="btn btn-primary mx-2">
+              Extract
+            </button>
             {capturedImage && (
               <div>
                 <img
@@ -89,11 +111,7 @@ const App = () => {
           </div>
         </div>
         <div className="row justify-content-center">
-          <div className="col-md-6">
-            <button onClick={handleSubmission} className="btn btn-primary">
-              Submit
-            </button>
-          </div>
+          <div className="col-md-6"></div>
         </div>
         <div className="row justify-content-center mt-5">
           <div className="col-md-6">
@@ -110,6 +128,7 @@ const App = () => {
             )}
           </div>
         </div>
+        {initialGrid && <SudokuGrid initialGrid={initialGrid} />}
       </div>
     </div>
   );

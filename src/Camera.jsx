@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaCamera } from "react-icons/fa";
 
 const Camera = ({ onCapture }) => {
   const [stream, setStream] = useState(null);
@@ -96,7 +97,7 @@ const Camera = ({ onCapture }) => {
         </div>
       )}
       <button onClick={startCamera} className="btn btn-primary me-2">
-        Start Camera
+        <FaCamera />
       </button>
     </>
   );
