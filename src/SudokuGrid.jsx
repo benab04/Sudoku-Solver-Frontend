@@ -3,6 +3,7 @@ import "./SudokuGrid.css"; // Import the CSS file
 const base_url = process.env.REACT_APP_BACKEND_URL;
 const SudokuGrid = ({ initialGrid }) => {
   const [grid, setGrid] = useState(initialGrid);
+  const [sudokuError, setSudokuError] = useState(null);
 
   useEffect(() => {
     // Update the grid state when initialGrid prop changes
@@ -17,6 +18,8 @@ const SudokuGrid = ({ initialGrid }) => {
   };
 
   const handleSubmit = () => {
+    setSudokuError(null);
+
     // Send the grid to the server
     fetch(`${base_url}solve/`, {
       method: "POST",
@@ -26,23 +29,36 @@ const SudokuGrid = ({ initialGrid }) => {
       body: JSON.stringify({ grid: grid }),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+        if (response.status === 200) {
+          return response.json();
+        } else if (response.status === 204) {
+          setSudokuError("No solution found. Try checking the values again");
+          throw new Error("No solution found for the Sudoku puzzle");
+        } else {
+          setSudokuError("Something went wrong. Please try again later.");
+          throw new Error("Something went wrong. Please try again later.");
         }
-        return response.json();
       })
       .then((data) => {
-        setGrid(JSON.parse(data.solved));
+        if (data.solved) {
+          setGrid(JSON.parse(data.solved));
+        }
+        if (data.error) {
+          setSudokuError(data.error);
+        }
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-    // console.log("Sending grid to server:", JSON.stringify(grid));
-    // You can add your code here to send the grid data to the server
   };
 
   return (
-    <div className="sudoku-container">
+    <div className="sudoku-container d-flex flex-column justify-content-center align-items-center">
+      {sudokuError && (
+        <div className="container text-align-center container-fluid my-3 ">
+          <h5>{sudokuError}</h5>
+        </div>
+      )}
       <table className="sudoku-table">
         <tbody>
           {grid.map((row, rowIndex) => (

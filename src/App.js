@@ -9,16 +9,17 @@ const App = () => {
   const [solvedSudoku, setSolvedSudoku] = useState(null);
   const [sudokuError, setSudokuError] = useState(null);
   const [initialGrid, setInitialGrid] = useState([
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
-    [6, 0, 0, 1, 9, 5, 0, 0, 0],
-    [0, 9, 8, 0, 0, 0, 0, 6, 0],
-    [8, 0, 0, 0, 6, 0, 0, 0, 3],
-    [4, 0, 0, 8, 0, 3, 0, 0, 1],
-    [7, 0, 0, 0, 2, 0, 0, 0, 6],
-    [0, 6, 0, 0, 0, 0, 2, 8, 0],
-    [0, 0, 0, 4, 1, 9, 0, 0, 5],
-    [0, 0, 0, 0, 8, 0, 0, 7, 9],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+
   console.log(initialGrid);
   // const initialGrid =
   // Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => 0));
@@ -74,7 +75,7 @@ const App = () => {
       .catch((error) => {
         console.error("Error:", error);
         setSolvedSudoku(null);
-        setSudokuError("Error occurred while solving sudoku.");
+        setSudokuError("Error occurred while extracing digits.");
       });
   };
 
@@ -82,6 +83,7 @@ const App = () => {
     <div className="container text-center mt-5">
       <div className="card p-4">
         <h1 className="mb-4">Sudoku Solver</h1>
+        <h5>Fill in the cells manually or upload an image to solve</h5>
         <div className="row flex flex-direction-column justify-content-center align-items-center">
           <div className="col-md-6 mb-3">
             <Camera onCapture={handleCapture} className="my-3" />
