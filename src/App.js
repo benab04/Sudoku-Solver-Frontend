@@ -103,12 +103,12 @@ const App = () => {
               Extract
             </button>
             {capturedImage && (
-              <div className="image-section">
+              <div className="image-section container-fluid">
                 <div className=" captured-image">
                   <img
                     src={capturedImage}
                     alt="Captured"
-                    className="img-fluid mt-3 captured-image"
+                    className="img-fluid mt-3 captured-image "
                     style={{ maxWidth: "400px", width: "100%", height: "auto" }}
                   />
                   <label
