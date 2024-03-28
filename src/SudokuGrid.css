@@ -11,7 +11,7 @@
   }
   
   .sudoku-cell {
-    border: 1px solid #000000;
+    border: 1px solid #484f51;
     text-align: center;
     vertical-align: middle;
   }
@@ -36,19 +36,18 @@
   
   /* Border styles for rows and columns */
   .sudoku-table tr:nth-child(3n) {
-    border-bottom: 4px solid #000000;
+    border-bottom: 3px solid #484f51;
   }
-  
   .sudoku-table tr:nth-child(3n + 1) {
-    border-top: 4px solid #000000;
+    border-top: 3px solid #484f51;
   }
   
   .sudoku-table td:nth-child(3n) {
-    border-right: 4px solid #000000;
+    border-right: 3px solid #484f51;
   }
   
   .sudoku-table td:nth-child(3n + 1) {
-    border-left: 4px solid #000000;
+    border-left: 3px solid #484f51;
   }
   @media screen and (max-width: 540px) {
     .sudoku-cell input {

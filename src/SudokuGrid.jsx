@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./SudokuGrid.css"; // Import the CSS file
 const base_url = process.env.REACT_APP_BACKEND_URL;
-const SudokuGrid = ({ initialGrid }) => {
+const SudokuGrid = ({ initialGrid, defaultGrid }) => {
   const [grid, setGrid] = useState(initialGrid);
   const [sudokuError, setSudokuError] = useState(null);
 
@@ -10,11 +10,27 @@ const SudokuGrid = ({ initialGrid }) => {
     setGrid(initialGrid);
   }, [initialGrid]);
 
+  const handleReset = () => {
+    setGrid(defaultGrid);
+  };
+
   const handleChange = (e, row, col) => {
     const updatedGrid = [...grid];
-    const value = parseInt(e.target.value, 10) || 0; // Convert to integer, fallback to 0 if not a valid number
+    var value = parseInt(e.target.value, 10) || 0;
+    if (value > 9 || value < 0) {
+      value = parseInt(value / 10);
+    }
     updatedGrid[row][col] = value;
     setGrid(updatedGrid);
+  };
+  const handleInputFocus = () => {
+    // Disable scrolling when input is focused
+    document.body.style.overflow = "hidden";
+  };
+
+  const handleInputBlur = () => {
+    // Enable scrolling when input is blurred
+    document.body.style.overflow = "auto";
   };
 
   const handleSubmit = () => {
@@ -84,6 +100,8 @@ const SudokuGrid = ({ initialGrid }) => {
                     max="9"
                     value={cell === 0 ? "" : cell} // Display empty string if cell is 0
                     onChange={(e) => handleChange(e, rowIndex, colIndex)}
+                    onFocus={handleInputFocus} // Disable scrolling when input is focused
+                    onBlur={handleInputBlur} // Enable scrolling when input is blurred
                   />
                 </td>
               ))}
@@ -91,9 +109,14 @@ const SudokuGrid = ({ initialGrid }) => {
           ))}
         </tbody>
       </table>
-      <button onClick={handleSubmit} className="btn btn-primary my-3 mx-2">
-        Solve
-      </button>
+      <div className="d-flx flex-column justify-contents-center align-items-center my-2">
+        <button onClick={handleSubmit} className="btn btn-primary my-3 mx-2">
+          Solve
+        </button>
+        <button onClick={handleReset} className="btn btn-primary my-3 mx-2">
+          Reset
+        </button>
+      </div>
     </div>
   );
 };

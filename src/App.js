@@ -2,23 +2,26 @@ import React, { useState } from "react";
 import Camera from "./Camera";
 import SudokuGrid from "./SudokuGrid";
 import { FaUpload } from "react-icons/fa6";
-const base_url = process.env.REACT_APP_BACKEND_URL;
+import "./styles.css";
+import { FaTrash } from "react-icons/fa";
 
+const base_url = process.env.REACT_APP_BACKEND_URL;
 const App = () => {
+  const defaultGrid = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ];
   const [capturedImage, setCapturedImage] = useState(null);
   const [solvedSudoku, setSolvedSudoku] = useState(null);
   const [sudokuError, setSudokuError] = useState(null);
-  const [initialGrid, setInitialGrid] = useState([
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  ]);
+  const [initialGrid, setInitialGrid] = useState(defaultGrid);
 
   const handleCapture = (imageDataURL) => {
     setCapturedImage(imageDataURL);
@@ -76,14 +79,17 @@ const App = () => {
   };
 
   return (
-    <div className="container text-center mt-5">
-      <div className="card p-4">
-        <h1 className="mb-4">Sudoku Solver</h1>
-        <h5>Fill in the cells manually or upload an image to solve</h5>
+    <div className="wrapper-div  text-center mt-5 mx-0">
+      <div className="container container-fluid py-4 px-0 mx-0">
+        <h1 className="heading mb-4">Sudoku Solver</h1>
+
         <div className="row flex flex-direction-column justify-content-center align-items-center">
           <div className="col-md-6 mb-3">
             <Camera onCapture={handleCapture} className="my-3" />
-            <label htmlFor="fileInput" className="btn btn-primary my-3">
+            <label
+              htmlFor="fileInput"
+              className="btn upload-button btn-primary my-3"
+            >
               <FaUpload />
             </label>
             <input
@@ -97,13 +103,21 @@ const App = () => {
               Extract
             </button>
             {capturedImage && (
-              <div>
-                <img
-                  src={capturedImage}
-                  alt="Captured"
-                  className="img-fluid mt-3"
-                  style={{ maxWidth: "400px", width: "100%", height: "auto" }}
-                />
+              <div className="image-section">
+                <div className=" captured-image">
+                  <img
+                    src={capturedImage}
+                    alt="Captured"
+                    className="img-fluid mt-3 captured-image"
+                    style={{ maxWidth: "400px", width: "100%", height: "auto" }}
+                  />
+                  <label
+                    className="btn delete-btn btn-primary"
+                    onClick={() => setCapturedImage(null)}
+                  >
+                    <FaTrash />
+                  </label>
+                </div>
               </div>
             )}
           </div>
@@ -126,7 +140,9 @@ const App = () => {
             )}
           </div>
         </div>
-        {initialGrid && <SudokuGrid initialGrid={initialGrid} />}
+        {initialGrid && (
+          <SudokuGrid initialGrid={initialGrid} defaultGrid={defaultGrid} />
+        )}
       </div>
     </div>
   );
