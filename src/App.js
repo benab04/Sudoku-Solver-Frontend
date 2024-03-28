@@ -103,7 +103,7 @@ const App = () => {
               Extract
             </button>
             {capturedImage && (
-              <div className="image-section container-fluid">
+              <div className="image-section container-fluid p-4">
                 <div className=" captured-image">
                   <img
                     src={capturedImage}
