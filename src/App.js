@@ -88,14 +88,15 @@ const App = () => {
         return response.json();
       })
       .then((data) => {
-        console.log(JSON.parse(data.Unsolved));
         setReceived(true);
+        setCapturedImage(`data:image/png;base64,${data.Detected_encoded}`);
         setSolvedSudoku(data.solved);
         setInitialGrid(JSON.parse(data.Unsolved)); // Set initial grid to Unsolved
         setSudokuError(null); // Reset error state
       })
       .catch((error) => {
         console.error("Error:", error);
+        setReceived(true);
         setSolvedSudoku(null);
         setSudokuError("Error occurred while extracing digits.");
       });
