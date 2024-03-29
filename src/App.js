@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Camera from "./Camera";
 import SudokuGrid from "./SudokuGrid";
 import { FaUpload } from "react-icons/fa6";
-import "./styles.css";
+import "./styles/styles.css";
 import { FaTrash } from "react-icons/fa";
-
+import Loader from "./Loader";
+import { GoInfo } from "react-icons/go";
+import "./styles/SudokuGrid.css";
 const base_url = process.env.REACT_APP_BACKEND_URL;
 const App = () => {
   const defaultGrid = [
@@ -22,6 +24,22 @@ const App = () => {
   const [solvedSudoku, setSolvedSudoku] = useState(null);
   const [sudokuError, setSudokuError] = useState(null);
   const [initialGrid, setInitialGrid] = useState(defaultGrid);
+  const [received, setReceived] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetch(base_url)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data) {
+            console.log(data);
+            setReceived(true);
+            clearInterval(interval);
+          }
+        })
+        .catch((err) => console.log(err));
+    }, 3000);
+  }, []);
 
   const handleCapture = (imageDataURL) => {
     setCapturedImage(imageDataURL);
@@ -47,10 +65,15 @@ const App = () => {
     }
   };
 
+  const resetAll = () => {
+    setCapturedImage(null);
+    setSudokuError(null);
+  };
+
   const sendDataToServer = (imageDataURL) => {
     setSolvedSudoku(null);
     setSudokuError(null); // Reset error state
-
+    setReceived(false);
     fetch(`${base_url}extract/`, {
       method: "POST",
       headers: {
@@ -66,8 +89,8 @@ const App = () => {
       })
       .then((data) => {
         console.log(JSON.parse(data.Unsolved));
+        setReceived(true);
         setSolvedSudoku(data.solved);
-        // setCapturedImage(null);
         setInitialGrid(JSON.parse(data.Unsolved)); // Set initial grid to Unsolved
         setSudokuError(null); // Reset error state
       })
@@ -83,7 +106,7 @@ const App = () => {
       <div className="container container-fluid py-4 px-0 mx-0">
         <h1 className="heading mb-4">Sudoku Solver</h1>
 
-        <div className="row flex flex-direction-column justify-content-center align-items-center">
+        <div className="row flex flex-direction-column justify-content-center align-items-center mx-0">
           <div className="col-md-6 mb-3">
             <Camera onCapture={handleCapture} className="my-3" />
             <label
@@ -136,12 +159,26 @@ const App = () => {
               />
             )}
             {sudokuError !== null && sudokuError !== "" && (
-              <h4>{sudokuError}</h4>
+              <div className="d-flex align-items-center justify-content-center ">
+                <div
+                  className="container container-fluid d-flex align-items-center justify-content-center alert-error alert alert-danger mx-4 p-2 "
+                  role="alert"
+                >
+                  <GoInfo />
+                  <h6 className="error-text mx-3">{sudokuError}</h6>
+                </div>
+              </div>
             )}
           </div>
         </div>
-        {initialGrid && (
-          <SudokuGrid initialGrid={initialGrid} defaultGrid={defaultGrid} />
+        {!received && <Loader />}
+
+        {received && initialGrid && (
+          <SudokuGrid
+            initialGrid={initialGrid}
+            defaultGrid={defaultGrid}
+            resetAll={resetAll}
+          />
         )}
       </div>
     </div>

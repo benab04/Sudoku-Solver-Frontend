@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaCamera, FaTrash } from "react-icons/fa";
+import { FaCamera } from "react-icons/fa";
 
 const Camera = ({ onCapture }) => {
   const [stream, setStream] = useState(null);

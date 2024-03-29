@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
-import "./SudokuGrid.css"; // Import the CSS file
+import "./styles/SudokuGrid.css"; // Import the CSS file
+import { GoInfo } from "react-icons/go";
 const base_url = process.env.REACT_APP_BACKEND_URL;
-const SudokuGrid = ({ initialGrid, defaultGrid }) => {
+const SudokuGrid = ({ initialGrid, defaultGrid, resetAll }) => {
   const [grid, setGrid] = useState(initialGrid);
   const [sudokuError, setSudokuError] = useState(null);
 
   useEffect(() => {
-    // Update the grid state when initialGrid prop changes
     setGrid(initialGrid);
   }, [initialGrid]);
 
   const handleReset = () => {
     setGrid(defaultGrid);
+    setSudokuError(null);
+    resetAll();
   };
 
   const handleChange = (e, row, col) => {
@@ -71,8 +73,16 @@ const SudokuGrid = ({ initialGrid, defaultGrid }) => {
   return (
     <div className="sudoku-container d-flex flex-column justify-content-center align-items-center">
       {sudokuError && (
-        <div className="container text-align-center container-fluid my-3 ">
-          <h5>{sudokuError}</h5>
+        <div className="d-flex align-items-center justify-content-center ">
+          <div
+            className="container container-fluid d-flex align-items-center justify-content-center alert-error  alert alert-danger mx-4 p-2 "
+            role="alert"
+          >
+            <GoInfo />
+            <h6 className="error-text mx-3" style={{ fontSize: "16px" }}>
+              {sudokuError}
+            </h6>
+          </div>
         </div>
       )}
       <table className="sudoku-table">
