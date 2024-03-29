@@ -1,88 +1,95 @@
 /* SudokuGrid CSS */
-
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 :root {
-  --input-width: 48px; 
+  --input-width: 48px;
 }
 .sudoku-container {
-    margin: 10px auto;
+  margin: 10px auto;
+}
+
+.sudoku-table {
+  border: 2px solid #000000;
+  border-spacing: 0;
+  border-collapse: collapse;
+  transition: all 0.5s;
+}
+
+.sudoku-cell {
+  border: 1px solid #484f51;
+  text-align: center;
+  vertical-align: middle;
+}
+.error-text {
+  font-size: 16px;
+}
+.sudoku-cell input {
+  color: #000000;
+  padding: 0;
+  border: 0;
+  text-align: center;
+  width: 48px;
+  height: 48px;
+  font-size: 30px;
+  background-color: #fffbfb;
+  outline: none;
+  text-transform: uppercase;
+  transition: all 0.5s;
+  font-family: "DM Sans", sans-serif;
+  color:#333;
+  /* font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal; */
+}
+.sudoku-cell input:focus {
+  background-color: #e3e3e3;
+}
+
+.sudoku-cell input:disabled {
+  background-color: #bbdefb;
+}
+
+/* Border styles for rows and columns */
+.sudoku-table tr:nth-child(3n) {
+  border-bottom: 3px solid #484f51;
+}
+.sudoku-table tr:nth-child(3n + 1) {
+  border-top: 3px solid #484f51;
+}
+
+.sudoku-table td:nth-child(3n) {
+  border-right: 3px solid #484f51;
+}
+
+.sudoku-table td:nth-child(3n + 1) {
+  border-left: 3px solid #484f51;
+}
+@media screen and (max-width: 540px) {
+  .sudoku-cell input {
+    --input-width: 30px;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
   }
-  
-  .sudoku-table {
-    border: 2px solid #000000;
-    border-spacing: 0;
-    border-collapse: collapse;
-    transition: all 0.5s;
+  .error-text {
+    font-size: 12px !important;
   }
-  
-  .sudoku-cell {
-    border: 1px solid #484f51;
-    text-align: center;
-    vertical-align: middle;
+}
+@media screen and (max-width: 390px) {
+  .sudoku-container {
+    margin: 20px auto;
   }
-  .error-text{
-    font-size:16px;
+  .error-text {
+    font-size: 12px !important;
   }
   .sudoku-cell input {
-    color: #000000;
-    padding: 0;
-    border: 0;
-    text-align: center;
-    width: 48px;
-    height: 48px;
-    font-size: 24px;
-    background-color: #ffffff;
-    outline: none;
-    text-transform: uppercase;
-    transition: all 0.5s;
-  }
-  
-  .sudoku-cell input:disabled {
-    background-color: #bbdefb;
-  }
-  
-  /* Border styles for rows and columns */
-  .sudoku-table tr:nth-child(3n) {
-    border-bottom: 3px solid #484f51;
-  }
-  .sudoku-table tr:nth-child(3n + 1) {
-    border-top: 3px solid #484f51;
-  }
-  
-  .sudoku-table td:nth-child(3n) {
-    border-right: 3px solid #484f51;
-  }
-  
-  .sudoku-table td:nth-child(3n + 1) {
-    border-left: 3px solid #484f51;
-  }
-  @media screen and (max-width: 540px) {
-    .sudoku-cell input {
-      --input-width: 30px;
-      width: 30px;
-      height: 30px;
-      font-size: 18px;
-    }
-    .error-text{
-      font-size:12px !important;
-    }
-  }
-  @media screen and (max-width: 390px) {
-    .sudoku-container {
-        margin: 20px auto;
-      }
-      .error-text{
-        font-size:12px !important;
-      }
-    .sudoku-cell input {
-      --input-width: 22px;
+    --input-width: 22px;
 
-      width: 22px;
-      height: 20px;
-      font-size:18px;
-    }
+    width: 22px;
+    height: 20px;
+    font-size: 18px;
   }
+}
 
-
-  .alert-error{
-    max-width: calc(9 * var(--input-width));
-  }
+.alert-error {
+  max-width: calc(9 * var(--input-width));
+}
