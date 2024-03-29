@@ -4,7 +4,7 @@ This repository contains the code for a website where users can input Sudoku puz
 
 ## Hosted Link
 
-The website is currently hosted at [sudoku-solver.com]([https://www.sudoku-solver.com](https://sudoku-solver-benab04.netlify.app/)).
+The website is currently hosted at https://sudoku-solver-benab04.netlify.app/
 
 ## Demo Video
 
